@@ -9,6 +9,7 @@ router.get('/rates', async function (req, res, next)  {
 
 	var query = req.query;
     console.log(query);
+    query.currency = undefined == query.currency? "": query.currency;
     const apiResponse = await fetch(
       `https://api.exchangeratesapi.io/latest?base=${query.base}&symbols=${query.currency}`
     )
@@ -20,7 +21,10 @@ router.get('/rates', async function (req, res, next)  {
     res.status(200).send(apiResponseJson)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Something went wrong')
+    res.status(500).send({
+	  	'error': "Internal Server Issue",
+	  	'hint': "try again",
+	  })
   }
 });
 
