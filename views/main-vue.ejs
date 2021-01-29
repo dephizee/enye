@@ -1,0 +1,370 @@
+<html lang="en">
+ 
+  <head>
+    <meta charset="utf-8" />
+    <title>Enye</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="shortcut icon" href="images/logo.svg" />
+    <style type="text/css">
+      .spinner::before {
+          width: 3.5rem!important;
+          height: 3.5rem!important;
+          margin-top: 10%;
+          margin-left: 50%;
+      }
+    </style>
+    <link href="css/style.bundle.css" rel="stylesheet" type="text/css" />
+   
+    
+  </head>
+  
+  <body  class="header-fixed header-mobile-fixed header-bottom-enabled subheader-enabled page-loading">
+    <!--begin::Main-->
+    <!--begin::Header Mobile-->
+    <div  class="header-mobile bg-primary header-mobile-fixed">
+      <!--begin::Logo-->
+      <a href="index.html">
+        <img alt="Logo" src="images/logo.svg" class="max-h-30px" />
+      </a>
+      <!--end::Logo-->
+      <!--begin::Toolbar-->
+      
+      <!--end::Toolbar-->
+    </div>
+    <!--end::Header Mobile-->
+    <div class="d-flex flex-column flex-root">
+      <!--begin::Page-->
+      <div class="d-flex flex-row flex-column-fluid page">
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column flex-row-fluid wrapper" >
+          <!--begin::Header-->
+          <div  class="header flex-column header-fixed">
+            <!--begin::Top-->
+            <div class="header-top">
+              <!--begin::Container-->
+              <div class="container">
+                <!--begin::Left-->
+                
+                <!--end::Left-->
+                <!--begin::Topbar-->
+                
+                <!--end::Topbar-->
+              </div>
+              <!--end::Container-->
+            </div>
+            <!--end::Top-->
+            <!--begin::Bottom-->
+            <div class="header-bottom">
+              <!--begin::Container-->
+              
+              <!--end::Container-->
+            </div>
+            <!--end::Bottom-->
+          </div>
+          <!--end::Header-->
+          <!--begin::Content-->
+          <div class="content d-flex flex-column flex-column-fluid" >
+            <!--begin::Subheader-->
+            
+            <!--end::Subheader-->
+            <!--begin::Entry-->
+            <div class="d-flex flex-column-fluid">
+              <!--begin::Container-->
+              <div class="container my-2"  id="vue-container">
+                <!--begin::Notice-->
+                
+                <!--end::Notice-->
+                <!--begin::Card-->
+                <div class="card card-custom">
+                  <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                    <div class="card-title">
+                      <h3 class="card-label"> Datasource >> <code>https://api.enye.tech/v1/challenge/records</code>
+                      <span class="text-muted pt-2 font-size-sm d-block">VueJs Used to render result</span></h3>
+                       
+                    </div>
+                    <div class="card-title d-block">
+                      <span class="text-muted pt-4 font-size-md d-block">{{filtered_profile.length }} results</span>
+                    </div>
+                    
+                  </div>
+                  <div class="card-body">
+                    <!--begin: Search Form-->
+                    <!--begin::Search Form-->
+                    <div v-if="errorloading" class="alert alert-warning font-size-md" role="alert">
+                        Unable to load. try again later
+                    </div>
+                    <div class="mb-7">
+                      <div class="row align-items-center">
+                        <div class="col-lg-9 col-xl-8">
+                          <div class="row align-items-center">
+                            <div class="col-md-4 my-2 my-md-0">
+                              <div class="input-icon">
+                                <input type="text" class="form-control" placeholder="Search..."  v-model="search"/>
+                                <span>
+                                  <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4 my-2 my-md-0">
+                              <div class="d-flex align-items-center">
+                                <label class="mr-3 mb-0 d-none d-md-block">Gender:</label>
+                                <select class="form-control" v-model="genderSelct">
+                                  <option value="">All</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Prefer to skip">Prefer to skip</option>
+                                  
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-4 my-2 my-md-0">
+                              <div class="d-flex align-items-center">
+                                <label class="mr-3 mb-0 d-none d-md-block">PaymentMethod:</label>
+                                
+                                <select class="form-control" v-model="paymentMethodSelect">
+                                  <option value="">All</option>
+                                  <option value="paypal">paypal</option>
+                                  <option value="check">check</option>
+                                  <option value="money order">money order</option>
+                                  <option value="cc">cc</option>
+                                </select>
+                                
+                          
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!--end::Search Form-->
+                    <!--end: Search Form-->
+                    <!--begin: Datatable-->
+                    <div v-if="pageLoading" class="spinner spinner-success mx-auto"></div>
+                    
+                    <div class=" datatable-bordered datatable-head-custom" style="overflow-x: scroll;">
+                      <table class="table table-bordered table-checkable">
+                        <thead>
+                          <th>#</th>
+                          <th>FirstName</th>
+                          <th>LastName</th>
+                          <th>Gender</th>
+                          <th>PaymentMethod</th>
+                          <th>Latitude</th><th>Longitude</th><th>CreditCardNumber</th><th>CreditCardType</th><th>Email</th><th>DomainName</th><th>PhoneNumber</th><th>MacAddress</th><th>URL</th><th>UserName</th><th>LastLogin</th>
+                        </thead>
+                        
+        
+                        <tbody>
+                          <tr is="profile-tr" v-for="profile in render_profile"
+                                v-bind:item="profile"
+                                v-bind:key="profile.id"> </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="my-2">
+                      <span v-for="page in pages" class="label label-inline font-weight-lighter mr-2 btn" :class="(page == current_page)?'label-primary':''" @click="toPage(page)">{{page}}</span>
+                    </div>
+                    <!--end: Datatable-->
+                  </div>
+                </div>
+                <!--end::Card-->
+              </div>
+              <!--end::Container-->
+            </div>
+            <!--end::Entry-->
+          </div>
+          <!--end::Content-->
+         
+        </div>
+        <!--end::Wrapper-->
+      </div>
+      <!--end::Page-->
+    </div>
+    <!--end::Main-->
+  
+    
+    
+    <script src="js/scripts.bundle.js"></script>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript">
+      var data = {
+        foo: 'bar',
+        pages: 0,
+        genderSelct: "",
+        search: "",
+        paymentMethodSelect: "",
+        question: "",
+        current_page: 0,
+        pageLoading: true,
+        errorloading: false,
+        profiles: [],
+        render_profile: [],
+        filtered_profile: [],
+      }
+
+      
+      Vue.component('profile-tr', {
+  
+        props: ['item', 'key'],
+        template: '<tr>'+
+            '<td>{{ key }}</td>'+
+            '<td>{{ item.FirstName }}</td>'+
+            '<td>{{ item.LastName }}</td>'+
+            '<td>{{ item.Gender }}</td>'+
+            '<td>{{ item.PaymentMethod }}</td>'+
+            '<td>{{ item.Latitude }}</td>'+
+            '<td>{{ item.Longitude }}</td>'+
+            '<td>{{ item.CreditCardNumber }}</td>'+
+            '<td>{{ item.CreditCardType }}</td>'+
+            '<td>{{ item.Email }}</td>'+
+            '<td>{{ item.DomainName }}</td>'+
+            '<td>{{ item.PhoneNumber }}</td>'+
+            '<td>{{ item.UserName }}</td>'+
+            '<td>{{ item.MacAddress }}</td>'+
+            '<td>{{ item.URL }}</td>'+
+            '<td>{{ item.LastLogin }}</td>'+
+            '</tr>',
+      })
+      Vue.component('profile-header', {
+  
+        props: ['item'],
+        template: '<th>{{ item }}</th>'
+      })
+      const mVue = new Vue({
+        el: '#vue-container',
+        data: data,
+        methods : {
+          searchData : ()=>{
+            alert("");
+          },
+          handleNewData : (data)=>{
+            // console.log(data);
+            // console.log(this.profiles);
+            this.profiles = data.records.profiles;
+          },
+          toPage : (page)=>{
+            // console.log(page);
+            var slicer = (page-1)*20;
+            // console.log( slicer, slicer+20);
+            data.render_profile = data.filtered_profile.slice( slicer, slicer+20);
+            data.current_page = page;
+
+            
+          },
+        },          
+        computed : {
+          headeyKeys: function () {
+          return Object.keys(this.profiles[0]);
+        }
+        },
+        created: () => {
+          console.log("here");
+          fetch("https://api.enye.tech/v1/challenge/records")
+            .then(response => {
+              if (!response.ok) {
+                  data.pageLoading = false;
+                  data.errorloading = true;
+              }
+              return response.json()
+            })
+            .then( (n_data)=>{
+                // console.log(n_data.size);
+                // console.log(this.profiles);
+                data.pageLoading = false;
+                data.profiles = n_data.records.profiles;
+                data.filtered_profile = n_data.records.profiles;
+                data.render_profile = data.filtered_profile.slice(0, 20);
+                data.pages = Math.ceil(n_data.size/20)
+                data.current_page = 1;
+              } ).
+            catch(error => {
+                    data.pageLoading = false;
+                    data.errorloading = true;
+                });
+        },
+        watch: {
+          
+          paymentMethodSelect: function (newValue, oldValue) {
+            
+            this.filtered_profile = this.profiles.filter(function(q){
+                
+                if(newValue == '' && data.genderSelct == '' ){
+                  return true;
+                }
+                if(newValue == '' && data.genderSelct != '' ){
+                  
+                  return data.genderSelct == q.Gender;
+                }
+                if(newValue != '' && data.genderSelct == '' ){
+
+                  return q.PaymentMethod == newValue;
+                }
+                // if(newValue != '' && this.genderSelct != '' ){
+                return q.PaymentMethod == newValue  && data.genderSelct == q.Gender;
+                // }
+                
+              });
+            this.pages = Math.ceil(this.filtered_profile.length/20)
+           this.toPage(1);
+              
+           
+          },
+          genderSelct: function (newValue, oldValue) {
+             
+            this.filtered_profile = this.profiles.filter((q)=>{
+                if(newValue == '' && data.paymentMethodSelect == '' ){
+                  return true;
+                }
+                if(newValue == '' && data.paymentMethodSelect != '' ){
+  
+                  return data.paymentMethodSelect == q.PaymentMethod;
+                }
+                if(newValue != '' && data.paymentMethodSelect == '' ){
+
+
+                  return q.Gender == newValue;
+                }
+                // if(newValue != '' && this.genderSelct != '' ){
+                return q.PaymentMethod == data.paymentMethodSelect  && newValue == q.Gender;
+                
+              });
+            this.pages = Math.ceil(this.filtered_profile.length/20)
+             this.toPage(1);
+          },
+
+          search : function (newValue, oldValue) {
+            this.filtered_profile = this.profiles.filter(function(q){
+                var toStringValue = JSON.stringify(q);;
+                if (toStringValue.toString().toLowerCase().indexOf(newValue.toLowerCase()) != -1) {
+                  if(data.paymentMethodSelect == '' && data.genderSelct == '' ){
+                    return true;
+                  }
+                  if(data.paymentMethodSelect != '' && data.paymentMethodSelect == q.PaymentMethod ){
+                    return true;
+                  }
+                  if(data.genderSelct != '' && data.genderSelct == q.Gender ){
+                    return true;
+                  }
+                  
+                }
+                
+                return false;
+                // }
+                
+              });
+            this.pages = Math.ceil(this.filtered_profile.length/20)
+             this.toPage(1);
+          }
+        },
+
+      });
+      // mVue.header = mVue.getKeys();
+
+    </script>
+  </body>
+  <!--end::Body-->
+</html>
