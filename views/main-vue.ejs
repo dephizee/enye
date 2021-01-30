@@ -148,6 +148,7 @@
                     <div class=" datatable-bordered datatable-head-custom" style="overflow-x: scroll;">
                       <table class="table table-bordered table-checkable">
                         <thead>
+                          
                           <th>#</th>
                           <th>FirstName</th>
                           <th>LastName</th>
@@ -158,8 +159,9 @@
                         
         
                         <tbody>
-                          <tr is="profile-tr" v-for="profile in render_profile"
+                          <tr is="profile-tr" v-for="profile, ki in render_profile"
                                 v-bind:item="profile"
+                                v-bind:mkey="ki"
                                 v-bind:key="profile.id"> </tr>
                         </tbody>
                       </table>
@@ -208,10 +210,15 @@
 
       
       Vue.component('profile-tr', {
-  
-        props: ['item', 'key'],
+         data: function () {
+          return {
+            count: 0
+          }
+        },
+        props: ['item', 'mkey'],
         template: '<tr>'+
-            '<td>{{ key }}</td>'+
+            
+            '<td>{{ mkey+1+( (data.current_page-1) *20) }}</td>'+
             '<td>{{ item.FirstName }}</td>'+
             '<td>{{ item.LastName }}</td>'+
             '<td>{{ item.Gender }}</td>'+
